@@ -1,0 +1,14 @@
+vscode.install -y
+Wget -y
+WhatsApp -y
+winrar -y
+neovim -y
+powershell-core -y
+office365proplus -y
+vmwareworkstation -y
+git.install -y
+GoogleChrome -y
+foxitreader -y
+freecommander-xe.install -y
+Firefox -y
+dropbox -y
