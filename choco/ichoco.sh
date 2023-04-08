@@ -1,14 +1,14 @@
-vscode.install -y
-Wget -y
-WhatsApp -y
-winrar -y
-neovim -y
-powershell-core -y
-office365proplus -y
-vmwareworkstation -y
-git.install -y
-GoogleChrome -y
-foxitreader -y
-freecommander-xe.install -y
-Firefox -y
-dropbox -y
+choco install vscode.install -y
+choco install Wget -y
+choco install WhatsApp -y
+choco install winrar -y
+choco install neovim -y
+choco install powershell-core -y
+choco install office365proplus -y
+choco install vmwareworkstation -y
+choco install git.install -y
+choco install GoogleChrome -y
+choco install foxitreader -y
+choco install freecommander-xe.install -y
+choco install Firefox -y
+choco install dropbox -y
