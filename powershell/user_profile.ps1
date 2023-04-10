@@ -23,20 +23,11 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 $env:GIT_SSH = "C:\Windows\system32\OpenSSH\ssh.exe"
 
 # Alias
-Remove-Alias -Name dir
+Remove-Alias -Name ls
 Set-Alias -Name vim -Value nvim
-Set-Alias g git
-Set-Alias grep findstr
-Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
-Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
-Set-Alias ll 'C:\Program Files\Git\usr\bin\ls.exe'
-Set-Alias rm 'C:\Program Files\Git\usr\bin\rm.exe'
-Set-Alias lo 'C:\Windows\System32\where.exe'
-
-
-
-# Utilities
-function which ($command) {
-  Get-Command -Name $command -ErrorAction SilentlyContinue |
-    Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
-}
+Set-Alias -Name g -Value git
+Set-Alias -Name grep -Value findstr
+Set-Alias -Name less -Value 'C:\Program Files\Git\usr\bin\less.exe'
+Set-Alias -Name ll -Value Get-ChildItem 
+Set-Alias -Name rm -Value 'C:\Program Files\Git\usr\bin\rm.exe'
+Set-Alias -Name lo -Value 'C:\Windows\System32\where.exe'
