@@ -30,6 +30,7 @@ Set-Alias grep findstr
 Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
 Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
 Set-Alias ll 'C:\Program Files\Git\usr\bin\ls.exe'
+Set-Alias rm 'C:\Program Files\Git\usr\bin\rm.exe'
 Set-Alias lo 'C:\Windows\System32\where.exe'
 
 
