@@ -16,6 +16,4 @@ source $HOME/.config/nvim/general/maps.vim
 source $HOME/.config/nvim/general/sets.vim
 source $HOME/.config/nvim/general/lightline.vim
 
-" ## python environment ##
-let g:python3_host_prog =
-  \ '/data/data/com.termux/files/usr/bin/python'
+
