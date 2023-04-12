@@ -5,5 +5,5 @@
 #### and install program by choco, scoop
 
 ```bash
-choco install git -y && git clone https://github.com/annzc/nvim.git && cd ~/.config/nvim && sh install.sh
+choco install git -y && git clone https://github.com/maithaen/.config.git && cd ~/.config/nvim && sh install.sh
 ```
