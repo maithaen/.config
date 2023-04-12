@@ -37,10 +37,10 @@ function _spinner() {
   case $1 in
     start)
       # calculate the column where spinner and status msg will be displayed
-      let column=$(tput cols)-${#2}-8
+      column=${2}
       # display message and position the cursor in $column column
       echo -ne ${2}
-      printf "%${column}s"
+      echo "${column}"
 
       # start spinner
       i=1
@@ -91,26 +91,32 @@ function stop_spinner {
   unset _sp_pid
 }
 
+url="https://chocolatey.org/install"
 function instal {
   echo "[!] This will override your current neovim configuration"
   echo "Consider a backup before continuing"
   echo -n "Press [ENTER] to proceed or [CTRL+C] to cancel."
   read
-  echo
-  start_spinner "~~ Installing Neovim"
-  pkg install neovim -y &>/dev/null
-  stop_spinner $?
-  start_spinner "~~ Installing NodeJS"
-  pkg install nodejs -y &>/dev/null
-  stop_spinner $?
-  start_spinner "~~ Configuring Neovim"
-  npm i -g neovim &>/dev/null
-  nvim=$HOME/.config/nvim
-  [ -d $nvim ] && mv $nvim $nvim.bak \
-    && mkdir -p $nvim && cp -r * $nvim \
-    || mkdir -p $nvim && cp -r * $nvim && sleep 3
-  stop_spinner $?
-  echo
-  echo "Installation finished."
+  echo ""
+  if choco --version &>/dev/null; then
+      start_spinner "~~ Installing Neovim"
+      choco install neovim -y &>/dev/null
+      stop_spinner $?
+      start_spinner "~~ Installing NodeJS"
+      choco install nodejs -y &>/dev/null
+      stop_spinner $?
+      start_spinner "~~ Configuring Neovim"
+      npm i -g neovim &>/dev/null
+      nvim=$HOME/.config/nvim
+      [ -d $nvim ] && mv $nvim $nvim.bak \
+        && mkdir -p $nvim && cp -r * $nvim \
+        || mkdir -p $nvim && cp -r * $nvim && sleep 3
+      stop_spinner $?
+      echo
+      echo "Installation finished."
+    else 
+        echo "Chocolatey not install ${url}"
+        exit 1
+    fi
 }
 instal
