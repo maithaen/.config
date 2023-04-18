@@ -24,12 +24,12 @@ winget install Python.Python.3.11
 ## Or
 ### window install by chocolatey 
 ```bash
-choco install git.install nodejs neovim python -y && npm -i -g yarn
+choco install git.install nodejs neovim python -y 
 ```
 # 2.Linux (Debian)
 ## Install packages
 ```bash
-sudo apt-get install neovim git python nodejs -y && npm -i -g yarn
+sudo apt-get install neovim git python nodejs -y 
 ```
 # 3.Config Nvim
 ## Backup the .config/nvim
@@ -50,8 +50,9 @@ cd && git clone https://github.com/maithaen/.config.git
 ```bash
 cd ~/.config/nvim/autoload/plugs/coc.nvim
 ```
+
 ```bash
-yarn build
+npm -i -g yarn && yarn build
 ```
 
 
