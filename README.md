@@ -2,31 +2,58 @@
 
 * Neovim         :[Neovim](https://github.com/maithaen/.config/tree/main/nvim)
 
-# Install Neovim
 
+# 1.window
+## Install packages
+### 1)Install Neovim
 ```bash
-cd && git clone https://github.com/maithaen/.config.git
+winget install Neovim.Neovim
 ```
-# window
-## install git
+### 2)install git
 ```bash
 winget install Git.Git
 ```
-## install nodejs and yarn
+### 3)install nodejs and yarn
 ```bash
 winget install OpenJS.NodeJS && npm -install -g yarn
 ```
+### 4)Python
+```bash
+winget install Python.Python.3.11
+```
+## Or
+### window install by chocolatey 
+```bash
+choco install git.install nodejs neovim python -y && npm -i -g yarn
+```
+# 2.Linux (Debian)
+## Install packages
+```bash
+sodo apt-get install neovim git pytohn nodejs && npm -i -g yarn
+```
+# 3.Config Nvim
+## Backup the .config/nvim
+```bash
+cp ~/.config/nvim/init.vim ~/.config/nvim/init.vim.bak
+```
+## Restore the .config/nvim
+```bash
+cp ~/.config/nvim/init.vim.bak ~/.config/nvim/init.vim
+```
+## clone .config/nvim
+```bash
+cd && git clone https://github.com/maithaen/.config.git
+```
+
 # config coc plugin
 ## change folder to coc.nvim
 ```bash
 cd ~/.config/nvim/autoload/plugs/coc.nvim
 ```
-## window install by chocolatey if you not install nodejs and yarn
-```bash
-choco install nodejs -y && npm -install -g yarn
-```
-## or
-
 ```bash
 yarn build
 ```
+
+
+
+
