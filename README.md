@@ -28,12 +28,14 @@ choco install git.install nodejs.install neovim -y
 ```bash
 sudo apt-get install neovim git nodejs npm -y 
 ```
-## Nodejs for WSL 2 
+##  WSL 2 
+### Nodejs
 ```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash && nvm install node
 ```
+### yarn
 ```bash
-nvm install node
+curl -o- -L https://yarnpkg.com/install.sh | bash
 ```
 # 3.Config Nvim
 ## Backup the .config/nvim
