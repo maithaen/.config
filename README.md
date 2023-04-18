@@ -29,7 +29,7 @@ choco install git.install nodejs neovim python -y && npm -i -g yarn
 # 2.Linux (Debian)
 ## Install packages
 ```bash
-sodo apt-get install neovim git python nodejs && npm -i -g yarn
+sudo apt-get install neovim git python nodejs && npm -i -g yarn
 ```
 # 3.Config Nvim
 ## Backup the .config/nvim
