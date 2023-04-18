@@ -15,7 +15,7 @@ winget install Git.Git
 ```
 ### 3)install nodejs and yarn
 ```bash
-winget install OpenJS.NodeJS && npm -install -g yarn
+winget install OpenJS.NodeJS && npm -i -g yarn
 ```
 ### 4)Python
 ```bash
@@ -24,12 +24,12 @@ winget install Python.Python.3.11
 ## Or
 ### window install by chocolatey 
 ```bash
-choco install git.install nodejs neovim python -y 
+choco install git.install nodejs.install yarn neovim python -y 
 ```
 # 2.Linux (Debian)
 ## Install packages
 ```bash
-sudo apt-get install neovim git python nodejs -y 
+sudo apt-get install neovim git python nodejs npm yarn -y 
 ```
 # 3.Config Nvim
 ## Backup the .config/nvim
@@ -52,7 +52,7 @@ cd ~/.config/nvim/autoload/plugs/coc.nvim
 ```
 
 ```bash
-npm -i -g yarn && yarn build
+yarn install && yarn build
 ```
 
 
