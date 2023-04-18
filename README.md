@@ -47,9 +47,11 @@ cd && git clone https://github.com/maithaen/.config.git
 ```bash
 cd ~/.config/nvim/autoload/plugs/coc.nvim
 ```
-
 ```bash
-npm install
+npm install --global yarn
+```
+```bash
+yarn install
 ```
 
 
