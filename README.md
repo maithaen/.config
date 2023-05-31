@@ -17,7 +17,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
 ```bash
 plugins=(
         git
-        zsh-autosuggestion
+        zsh-autosuggestions
         zsh-syntax-highlighting
 )
 ```
