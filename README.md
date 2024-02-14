@@ -36,12 +36,16 @@ iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
+```sh
+mkdir -p .config/nvim/init.vim && cd $_
+```
+### coppy init.vim to .config/nvim/  and run :PlugInstall in neovim
 
 ## config coc plugin
 ### change folder to coc.nvim
 
 ```bash
-npm install --global yarn
+npm install --ignore-engines
 ```
 ```bash
 yarn install --ignore-engines
