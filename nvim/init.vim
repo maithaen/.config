@@ -9,6 +9,7 @@ set shiftwidth=4
 set softtabstop=4
 set encoding=UTF-8
 
+
 " Plugin manager
 call plug#begin()
 
@@ -43,6 +44,8 @@ call plug#end()
 " Key mappings
 nmap <leader>c :Commentary<CR> 
 xmap <leader>c :Commentary<CR>
+nmap <F2> :Commentary<CR>
+xmap <F2> :Commentary<CR>
 
 nmap <C-t> :NERDTreeToggle<CR>
 nmap <F3> :NERDTreeToggle<CR>
@@ -78,3 +81,5 @@ colorscheme jellybeans
 
 let g:NERDTreeDirArrowExpandable = "+"
 let g:NERDTreeDirArrowCollapsible = "~"
+
+inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
