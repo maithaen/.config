@@ -45,6 +45,23 @@ npm install --ignore-engines
 yarn install --ignore-engines
 ```
 
+# install apps list: 
+  "neovim", "git", "zsh",
+  "oh-my-zsh", "curl", "wget", "python3",
+  "python3-pip", "python3-venv", "gcc", "g++",
+  "make", "cmake", "neofetch",
+  "adb", "fastboot"
+## Install apps using apt
+```bash
+sh -c "$(curl fsSL https://github.com/maithaen/.config/blob/main/install_apps_using_apt.sh)"
+```
+## Install  apps using pacman
+```bash
+sh -c "$(curl fsSL https://github.com/maithaen/.config/blob/main/install_apps_using_pacman.sh)"
+```
+
+
+
 
 
 
