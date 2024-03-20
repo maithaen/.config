@@ -53,11 +53,11 @@ yarn install --ignore-engines
   "adb", "fastboot"
 ## Install apps using apt
 ```bash
-sh -c "$(curl fsSL https://github.com/maithaen/.config/blob/main/install_apps_using_apt.sh)"
+sh -c "$(curl -fsSL https://github.com/maithaen/.config/blob/main/install_apps_using_apt.sh)"
 ```
 ## Install  apps using pacman
 ```bash
-sh -c "$(curl fsSL https://github.com/maithaen/.config/blob/main/install_apps_using_pacman.sh)"
+sh -c "$(curl -fsSL https://github.com/maithaen/.config/blob/main/install_apps_using_pacman.sh)"
 ```
 
 
