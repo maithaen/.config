@@ -22,9 +22,7 @@ plugins=(
 )
 ```
 # config nvim
-## install vim pluggins
-
-###### Unix, Linux
+## install nvim pluggins Linux
 
 ```sh
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -34,24 +32,21 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 mkdir -p .config/nvim/ && cd $_ && touch init.vim
 ```
 ### coppy init.vim to .config/nvim/  and run :PlugInstall in neovim
-##Install nvm
+##Install nvm, node and yarn
 ```sh
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash && source ~/.zshrc && nvm install node && npm install yarn -g
 ```
-#Install node and yarn
+#Install Plugin
 ```sh
-nvm install node
-npm install yarn -g
+nvim +PlugInstall
 ```
 
 ## config coc plugin
 ### change folder to coc.nvim
 
+
 ```bash
-npm install --ignore-engines
-```
-```bash
-yarn install --ignore-engines
+cd .local/share/nvim/plugged/coc.nvim && yarn install --ignore-engines
 ```
 
 # install apps list: 
