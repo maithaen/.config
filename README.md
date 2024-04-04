@@ -31,9 +31,18 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
 ```sh
-mkdir -p .config/nvim/init.vim && cd $_
+mkdir -p .config/nvim/ && cd $_ && touch init.vim
 ```
 ### coppy init.vim to .config/nvim/  and run :PlugInstall in neovim
+##Install nvm
+```sh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+```sh
+#Install node
+```sh
+nvm install node
+npm install yarn -g
+```sh
 
 ## config coc plugin
 ### change folder to coc.nvim
