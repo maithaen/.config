@@ -32,7 +32,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ```
 ```sh
 mkdir -p .config/nvim/ && cd $_ && touch init.vim
-```
+```sh
 ### coppy init.vim to .config/nvim/  and run :PlugInstall in neovim
 ##Install nvm
 ```sh
