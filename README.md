@@ -14,7 +14,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
     ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 ###### add config to your  ~/.zshrc
-```bash
+```sh
 plugins=(
         git
         zsh-autosuggestions
@@ -32,17 +32,17 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ```
 ```sh
 mkdir -p .config/nvim/ && cd $_ && touch init.vim
-```sh
+```
 ### coppy init.vim to .config/nvim/  and run :PlugInstall in neovim
 ##Install nvm
 ```sh
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-```sh
-#Install node
+```
+#Install node and yarn
 ```sh
 nvm install node
 npm install yarn -g
-```sh
+```
 
 ## config coc plugin
 ### change folder to coc.nvim
