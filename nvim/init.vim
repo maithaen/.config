@@ -42,6 +42,9 @@ let g:coc_global_extensions = [
 
 call plug#end()
 
+let tmuxline_powerline_separators = o
+let airline#extensions#tmuxline#snapshot_file = '~/.config/tmux/tmux-status.conf'
+
 " Key mappings
 nmap <leader>c :Commentary<CR>
 xmap <leader>c :Commentary<CR>
