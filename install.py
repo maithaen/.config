@@ -138,7 +138,7 @@ def clone_dotconfig():
   # Perform cloning logic after successful backup or deletion (existing from the loop)
   try:
     # Combine cloning and checkout into a single command
-    subprocess.run(["git", "clone", repo, "~"])
+    subprocess.run(["git", "clone", repo, ".config"])
     # Remove Git metadata directly after cloning
     subprocess.run(["sudo", "rm", "-rf", "~/.git"], check=True)
     # move .config/.zshrc to ~/.zshrc
