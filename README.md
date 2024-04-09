@@ -55,5 +55,5 @@ neovim git zsh oh-my-zsh curl wget python3 python3-pip python3-venv gcc g++ make
 
 
 ```bash
-curl -s https://raw.githubusercontent.com/maithaen/.config/main/install.py | python3
+curl -O -L https://raw.githubusercontent.com/maithaen/.config/main/install.py && python3 install.py
 ```
