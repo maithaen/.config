@@ -55,5 +55,5 @@ neovim git zsh oh-my-zsh curl wget python3 python3-pip python3-venv gcc g++ make
 
 
 ```bash
-in comming soon
+curl -s https://github.com/maithaen/.config/blob/main/install.py | python3
 ```
