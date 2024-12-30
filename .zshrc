@@ -110,3 +110,6 @@ alias tt="eza --icons --tree -L 2"
 alias python="python3"
 alias py="python3"
 
+# setup fzf keybinding (ctrl+t) fuzzy completion
+eval "$(fzf --zsh)"
+
