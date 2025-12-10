@@ -1,24 +1,106 @@
-# Window settings
-window:
-  dimensions:
-    columns: 120
-    lines: 36
-  
-  class:
-    instance: Alacritty
+[window]
+opacity = 0.95
+padding = { x = 10, y = 10 }
+decorations = "Full"
+startup_mode = "Windowed"
+dynamic_title = true
 
-# Font settings  
-font:
-  size: 14
-  
-  normal:
-    family: MesloLGS NF
+[window.dimensions]
+columns = 120
+lines = 30
 
-# Shell
-shell:
-  program: /bin/zsh
-  
-  args:
-    - -l
-    - -c 
-    - "tmux attach || tmux"
+[scrolling]
+history = 10000
+multiplier = 3
+
+[font]
+size = 11.0
+
+[font.normal]
+family = "Cousine Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "Cousine Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "Cousine Nerd Font"
+style = "Italic"
+
+[colors.primary]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+
+[colors.cursor]
+text = "#1e1e2e"
+cursor = "#f5e0dc"
+
+[colors.normal]
+black = "#45475a"
+red = "#f38ba8"
+green = "#a6e3a1"
+yellow = "#f9e2af"
+blue = "#89b4fa"
+magenta = "#f5c2e7"
+cyan = "#94e2d5"
+white = "#bac2de"
+
+[colors.bright]
+black = "#585b70"
+red = "#f38ba8"
+green = "#a6e3a1"
+yellow = "#f9e2af"
+blue = "#89b4fa"
+magenta = "#f5c2e7"
+cyan = "#94e2d5"
+white = "#a6adc8"
+
+[shell]
+program = "pwsh.exe"
+args = []
+
+# Alternative shells (uncomment the one you prefer):
+# program = "powershell.exe"
+# program = "cmd.exe"
+# program = "C:\\Program Files\\Git\\bin\\bash.exe"
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+blink_interval = 750
+
+[mouse]
+hide_when_typing = true
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "SpawnNewInstance"
+
+[[keyboard.bindings]]
+key = "Plus"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
+action = "ResetFontSize"
+
+[env]
+TERM = "xterm-256color"
