@@ -110,6 +110,54 @@ alias tt="eza --icons --tree -L 2"
 alias python="python3"
 alias py="python3"
 
+# ============================================
+# Dotfiles Configuration
+# ============================================
+
+# Detect dotfiles directory
+if [ -d "$HOME/.dotfiles" ]; then
+    export DOTFILES_DIR="$HOME/.dotfiles"
+elif [ -d "$HOME/.config/dotfiles" ] && [ -L "$HOME/.config/dotfiles" ]; then
+    export DOTFILES_DIR="$HOME/.config/dotfiles"
+elif [ -d "$HOME/.config" ] && [ -f "$HOME/.config/.zshrc" ]; then
+    export DOTFILES_DIR="$HOME/.config"
+else
+    export DOTFILES_DIR="$HOME/.dotfiles"  # Default fallback
+fi
+
+# ============================================
+# Python CLI Tools
+# ============================================
+
+# Ollama Run CLI
+orun() {
+    python3 "$DOTFILES_DIR/pycli/orun.py" "$@"
+}
+
+# DevInit - Configuration File Generator
+devinit() {
+    python3 "$DOTFILES_DIR/pycli/devinit.py" "$@"
+}
+
+# DevUtils - Utility Functions
+devutils() {
+    python3 "$DOTFILES_DIR/pycli/devutils.py" "$@"
+}
+
+# DevUtils shorthand aliases
+which() {
+    python3 "$DOTFILES_DIR/pycli/devutils.py" which "$@"
+}
+ll() {
+    python3 "$DOTFILES_DIR/pycli/devutils.py" ll "$@"
+}
+sysinfo() {
+    python3 "$DOTFILES_DIR/pycli/devutils.py" sysinfo "$@"
+}
+open() {
+    python3 "$DOTFILES_DIR/pycli/devutils.py" open "$@"
+}
+
+
 # setup fzf keybinding (ctrl+t) fuzzy completion
 eval "$(fzf --zsh)"
-

@@ -1,9 +1,15 @@
+# Alacritty Configuration (TOML format)
+# Updated to latest version (0.13.0+)
+
 [window]
 opacity = 0.95
-padding = { x = 10, y = 10 }
+dynamic_title = true
 decorations = "Full"
 startup_mode = "Windowed"
-dynamic_title = true
+
+[window.padding]
+x = 10
+y = 10
 
 [window.dimensions]
 columns = 120
@@ -65,8 +71,11 @@ args = []
 # program = "cmd.exe"
 # program = "C:\\Program Files\\Git\\bin\\bash.exe"
 
+[cursor.style]
+shape = "Block"
+blinking = "On"
+
 [cursor]
-style = { shape = "Block", blinking = "On" }
 blink_interval = 750
 
 [mouse]

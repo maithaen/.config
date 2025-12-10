@@ -1,0 +1,5 @@
+# Python CLI Tools Dependencies
+# Install with: pip3 install -r requirements.txt --user
+
+rich>=13.0.0
+requests>=2.31.0
