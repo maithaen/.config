@@ -4,9 +4,9 @@
 # Quick Install Script - Dotfiles Setup
 # ============================================================================
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/maithaen/.config/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/maithaen/Dotfiles/main/install.sh | bash
 #   OR
-#   git clone https://github.com/maithaen/.config.git ~/.dotfiles && cd ~/.dotfiles && ./install.sh
+#   git clone https://github.com/maithaen/Dotfiles.git ~/.dotfiles && cd ~/.dotfiles && ./install.sh
 # ============================================================================
 
 set -e  # Exit on any error
@@ -23,7 +23,7 @@ BOLD='\033[1m'
 # Determine script directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
-DOTFILES_REPO="https://github.com/maithaen/.config.git"
+DOTFILES_REPO="https://github.com/maithaen/Dotfiles.git"
 
 # ============================================================================
 # Helper Functions
