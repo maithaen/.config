@@ -6,7 +6,7 @@ This script sets up the pycli tools with proper dependencies using UV (fast Pyth
 
 Usage:
     # Install with uvx (recommended - no installation needed)
-    uvx --from git+https://github.com/maithaen/.config pycli-setup
+    uvx --from git+https://github.com/maithaen/Dotfiles pycli-setup
 
     # Or run directly
     python3 setup_pycli.py
@@ -25,7 +25,7 @@ from pathlib import Path
 # Configuration
 # ============================================
 
-PYCLI_DIR = Path.home() / ".config" / "pycli"
+PYCLI_DIR = Path(__file__).parent.resolve()
 REQUIRED_PACKAGES = ["rich", "requests"]
 
 SCRIPTS = {
@@ -107,7 +107,6 @@ def install_uv():
         print_success("UV installed successfully")
         print_warning("You may need to restart your terminal or run: source ~/.bashrc")
         return True
-
     except Exception as e:
         print_error(f"Failed to install UV: {e}")
         print_info("Visit https://docs.astral.sh/uv/ for manual installation")
@@ -198,9 +197,7 @@ exec python3 "{script_path}" "$@"
     # Check if ~/.local/bin is in PATH
     path_env = os.environ.get("PATH", "")
     if str(local_bin) not in path_env:
-        print_warning(
-            f'Add to your shell profile: export PATH="$HOME/.local/bin:$PATH"'
-        )
+        print_warning('Add to your shell profile: export PATH="$HOME/.local/bin:$PATH"')
 
     return True
 

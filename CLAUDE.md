@@ -222,7 +222,7 @@ pip3 install rich requests --user
 **Or with UV**:
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
-cd ~/.config/pycli && python3 setup_pycli.py
+cd ~/.dotfiles/pycli && python3 setup_pycli.py
 ```
 
 ---
@@ -232,7 +232,7 @@ cd ~/.config/pycli && python3 setup_pycli.py
 ### Quick Setup (One Command)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/maithaen/.config/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/maithaen/Dotfiles/main/install.sh | bash
 ```
 This downloads and runs `install.sh`, which clones the repo to `~/.dotfiles` and runs `setup.sh`.
 

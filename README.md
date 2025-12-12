@@ -301,7 +301,7 @@ You can also run scripts directly with UV without installation:
 
 ```bash
 # Run with uv
-uv run --directory ~/.config/pycli python orun.py "your prompt"
+uv run --directory ~/.dotfiles/pycli python orun.py "your prompt"
 
 # Or after setup, use the wrappers
 orun "your prompt"
