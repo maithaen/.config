@@ -43,7 +43,7 @@ DEFAULT_MODEL = "gpt-oss:120b-cloud"
 # DEFAULT_MODEL = "ministral-3:14b-cloud"
 
 
-def stream_ollama(prompt: str, model: str) -> None:
+def stream_ollama(prompt: str, model: str) -> None:  # noqa: C901
     """Stream response from Ollama with markdown formatting."""
     # Add system prompt to make it short and simple
     system_prompt = """
@@ -63,7 +63,9 @@ def stream_ollama(prompt: str, model: str) -> None:
     }
 
     try:
-        response = requests.post(OLLAMA_URL, json=payload, stream=True, timeout=120)  # noqa: E501
+        response = requests.post(
+            OLLAMA_URL, json=payload, stream=True, timeout=120
+        )  # noqa: E501
         response.raise_for_status()
     except requests.exceptions.ConnectionError:
         print(f"Error: Cannot connect to Ollama at {OLLAMA_URL}")

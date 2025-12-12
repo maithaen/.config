@@ -106,9 +106,11 @@ alias vim="nvim"
 alias cls="clear"
 alias cat="batcat"
 alias ls="exa --icons"
-alias tt="eza --icons --tree -L 2"
 alias python="python3"
 alias py="python3"
+tt() {
+    eza --icons --tree --ignore-glob=".venv|node_modules|.git|__pycache__|dist|build|target|.idea|.vscode" -L 2 "$@"
+}
 
 # ============================================
 # Dotfiles Configuration

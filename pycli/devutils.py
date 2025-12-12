@@ -247,7 +247,7 @@ def cmd_sysinfo(args):
 # ============================================
 
 
-def cmd_open(args):
+def cmd_open(args):  # noqa: C901
     """Open file manager at specified path."""
     path = args.path or "."
     abs_path = os.path.abspath(path)
