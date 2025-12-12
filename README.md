@@ -122,7 +122,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
 
 ```bash
 # Clone to ~/.dotfiles (recommended)
-git clone https://github.com/maithaen/.config.git ~/.dotfiles
+git clone https://github.com/maithaen/Dotfiles.git ~/.dotfiles
 
 # Create symbolic links
 ln -sf ~/.dotfiles/.zshrc ~/.zshrc
