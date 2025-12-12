@@ -18,6 +18,11 @@ curl -fsSL https://raw.githubusercontent.com/maithaen/Dotfiles/main/install.sh |
 ./setup.sh --links-only # Only create symlinks, skip installation
 ```
 
+To pass options directly to the one-line installer (e.g., for links-only mode):
+```bash
+curl -fsSL https://raw.githubusercontent.com/maithaen/Dotfiles/main/install.sh | bash -s -- --links-only
+```
+
 ---
 
 ## 📦 What Gets Installed

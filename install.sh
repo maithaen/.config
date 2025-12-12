@@ -91,7 +91,7 @@ run_setup() {
     
     if [ -f "./setup.sh" ]; then
         print_info "Running main setup script..."
-        bash ./setup.sh
+        bash ./setup.sh "$@"
     else
         print_error "setup.sh not found in $DOTFILES_DIR"
         exit 1
@@ -118,7 +118,7 @@ main() {
     setup_dotfiles_repo
     
     # Run the main setup script
-    run_setup
+    run_setup "$@"
 }
 
 main "$@"
