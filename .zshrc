@@ -144,19 +144,6 @@ devutils() {
     python3 "$DOTFILES_DIR/pycli/devutils.py" "$@"
 }
 
-# DevUtils shorthand aliases
-which() {
-    python3 "$DOTFILES_DIR/pycli/devutils.py" which "$@"
-}
-ll() {
-    python3 "$DOTFILES_DIR/pycli/devutils.py" ll "$@"
-}
-sysinfo() {
-    python3 "$DOTFILES_DIR/pycli/devutils.py" sysinfo "$@"
-}
-open() {
-    python3 "$DOTFILES_DIR/pycli/devutils.py" open "$@"
-}
 
 
 # setup fzf keybinding (ctrl+t) fuzzy completion
