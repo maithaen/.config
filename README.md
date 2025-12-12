@@ -5,7 +5,7 @@ Personal development environment configuration for Linux/WSL. One command to set
 ## ⚡ Quick Setup (One Command)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/maithaen/.config/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/maithaen/Dotfiles/main/install.sh | bash
 ```
 
 > ⚠️ Always review scripts before running with `curl | bash`
