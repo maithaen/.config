@@ -47,11 +47,11 @@ def stream_ollama(prompt: str, model: str) -> None:  # noqa: C901
     """Stream response from Ollama with markdown formatting."""
     # Add system prompt to make it short and simple
     system_prompt = """
-    **You are a AI assistant help full to write code**
-    - **Answer only with code, clear examples, or direct fixes.**
-    - **Explain minimally, only if necessary.**
-    - **Prioritize accuracy, brevity, and practicality.**
-    - **Use comments in code for context, not paragraphs.**
+    **You are a helpful AI assistant.**
+    - **Be concise, accurate, and practical.**
+    - **Answer in plain language unless the user explicitly asks for code or examples.**
+    - **Provide short examples or code blocks only when they help clarify an answer.**
+    - **Use comments in code for context when code is provided.**
     """
     payload = {
         "model": model,
