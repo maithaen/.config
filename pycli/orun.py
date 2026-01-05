@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Ollama Run - Streaming CLI with Rich Markdown Output
+Ollama Run - CLI with Tools and Markdown Output
 
 Usage:
     orun "your question here"
@@ -8,9 +8,9 @@ Usage:
     orun -m "your question" --model=model_name
 
 Examples:
-    orun "how to create new branch"
-    orun "give me hello world in cpp" -md=glm-4.6:cloud
-    orun -m "explain python decorators" --model=mistral:latest
+    orun "what time is it?"
+    orun "calculate 123 * 456"
+    orun "list files in current directory"
 """
 
 import sys
@@ -18,6 +18,9 @@ import os
 import argparse
 import requests
 import json
+import subprocess
+import shutil
+from datetime import datetime
 
 # Fix Windows encoding issues
 if sys.platform == "win32":
@@ -36,98 +39,254 @@ except ImportError:
     RICH_AVAILABLE = False
     print("Note: Install 'rich' for better output: pip install rich")
 
+if RICH_AVAILABLE:
+    console = Console(force_terminal=True, legacy_windows=False)
+
 # Configuration
 OLLAMA_URL = "http://localhost:11434/api/chat"
-DEFAULT_MODEL = "gpt-oss:120b-cloud"
-# DEFAULT_MODEL = "mistral:latest"
-# DEFAULT_MODEL = "ministral-3:14b-cloud"
+DEFAULT_MODEL = "mistral-large-3:675b-cloud"
 
 
-def stream_ollama(prompt: str, model: str) -> None:  # noqa: C901
-    """Stream response from Ollama with markdown formatting."""
-    # Add system prompt to make it short and simple
+# ============================================
+# Tool Definitions
+# ============================================
+
+
+def get_current_date() -> str:
+    """Get the current date and time."""
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def run_command(command: str) -> str:
+    """Run a shell command."""
+    # Determine shell
+    cmd = []
+    if sys.platform == "win32":
+        shell = "pwsh"
+        if shutil.which("pwsh") is None:
+            shell = "powershell"
+        cmd = [shell, "-Command", command]
+    else:
+        cmd = ["bash", "-c", command]
+
+    try:
+        # Run command
+        result = subprocess.run(cmd, capture_output=True, text=True, check=False)
+
+        output_parts = []
+        if result.stdout:
+            output_parts.append(result.stdout.strip())
+        if result.stderr:
+            output_parts.append(f"stderr: {result.stderr.strip()}")
+
+        return (
+            "\n".join(output_parts) if output_parts else "Command executed (no output)"
+        )
+    except Exception as e:
+        return f"Error executing command: {str(e)}"
+
+
+TOOL_DEFINITIONS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_current_date",
+            "description": "Get the current date and time",
+            "parameters": {"type": "object", "properties": {}, "required": []},
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "run_command",
+            "description": "Run a shell command (pwsh on Windows, bash on Linux). Use this for calculations, checking files, or system tasks.",
+            "parameters": {
+                "type": "object",
+                "required": ["command"],
+                "properties": {
+                    "command": {
+                        "type": "string",
+                        "description": "The command line to execute",
+                    }
+                },
+            },
+        },
+    },
+]
+
+AVAILABLE_FUNCTIONS = {
+    "get_current_date": get_current_date,
+    "run_command": run_command,
+}
+
+
+def execute_tool_call(tool_name: str, args) -> str:
+    """Execute a single tool call and return result string."""
+    if RICH_AVAILABLE:
+        console.print(f"[yellow]Running tool: {tool_name}[/yellow] args={args}")
+    else:
+        print(f"Running tool: {tool_name} args={args}")
+
+    func = AVAILABLE_FUNCTIONS.get(tool_name)
+    if not func:
+        return f"Error: Tool {tool_name} not found"
+
+    try:
+        # Handle argument variations (some models might send strings)
+        if isinstance(args, str):
+            try:
+                args = json.loads(args)
+            except ValueError:
+                pass  # Try passing as is if not json
+
+        if isinstance(args, dict):
+            return str(func(**args))
+        else:
+            return str(func())  # No args fallback
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+# ============================================
+# Chat Logic
+# ============================================
+
+
+def run_chat(prompt: str, model: str) -> None:  # noqa: C901
+    """Run chat loop with tool support and streaming."""
+
     system_prompt = """
     **You are a helpful AI assistant.**
     - **Be concise, accurate, and practical.**
-    - **Answer in plain language unless the user explicitly asks for code or examples.**
-    - **Provide short examples or code blocks only when they help clarify an answer.**
-    - **Use comments in code for context when code is provided.**
+    - **You have access to tools (run_command, get_current_date).**
+    - **Use 'run_command' to solve math problems (e.g. using echo or python), check files, or get system info.**
+    - **Answer in plain language unless the user explicitly asks for code.**
     """
-    payload = {
-        "model": model,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt},
-        ],
-        "stream": True,
-    }
 
-    try:
-        response = requests.post(
-            OLLAMA_URL, json=payload, stream=True, timeout=120
-        )  # noqa: E501
-        response.raise_for_status()
-    except requests.exceptions.ConnectionError:
-        print(f"Error: Cannot connect to Ollama at {OLLAMA_URL}")
-        print("Make sure Ollama is running: ollama serve")
-        sys.exit(1)
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        sys.exit(1)
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": prompt},
+    ]
 
-    full_response = ""
+    # Max turns to prevent infinite loops
+    MAX_TURNS = 10
+    # uncomment this if you want to see the model name
+    # if RICH_AVAILABLE:
+    #     console.print(f"[dim]Using model: {model}[/dim]")
 
-    # Detect if output is being piped/redirected
-    is_piped = not sys.stdout.isatty()
+    for _ in range(MAX_TURNS):
+        payload = {
+            "model": model,
+            "messages": messages,
+            "stream": True,  # Process with streaming
+            "tools": TOOL_DEFINITIONS,
+        }
 
-    if RICH_AVAILABLE and not is_piped:
-        console = Console(force_terminal=True, legacy_windows=False)
-        with Live(Markdown(""), console=console, refresh_per_second=8) as live:
-            for line in response.iter_lines():
-                if line:
+        try:
+            response = requests.post(OLLAMA_URL, json=payload, stream=True, timeout=120)
+            response.raise_for_status()
+
+            full_content = ""
+            tool_calls = []
+
+            # Streaming loop
+            if RICH_AVAILABLE:
+                with Live(Markdown(""), console=console, refresh_per_second=10) as live:
+                    for line in response.iter_lines():
+                        if not line:
+                            continue
+                        try:
+                            data = json.loads(line.decode("utf-8"))
+                            if data.get("done", False):
+                                break
+
+                            msg = data.get("message", {})
+
+                            # Accumulate content for display
+                            chunk_content = msg.get("content", "")
+                            if chunk_content:
+                                full_content += chunk_content
+                                live.update(Markdown(full_content))
+
+                            # Setup for tool calls
+                            # Note: Ollama might stream tool calls. We collect them.
+                            if "tool_calls" in msg and msg["tool_calls"]:
+                                for tc in msg["tool_calls"]:
+                                    tool_calls.append(tc)
+
+                        except json.JSONDecodeError:
+                            continue
+                console.print()  # Newline after live
+            else:
+                # Plain text fallback
+                for line in response.iter_lines():
+                    if not line:
+                        continue
                     try:
                         data = json.loads(line.decode("utf-8"))
-                        if "message" in data:
-                            content = data["message"].get("content", "")
-                            full_response += content
-                            live.update(Markdown(full_response))
                         if data.get("done", False):
                             break
+
+                        msg = data.get("message", {})
+
+                        chunk_content = msg.get("content", "")
+                        if chunk_content:
+                            print(chunk_content, end="", flush=True)
+                            full_content += chunk_content
+
+                        if "tool_calls" in msg and msg["tool_calls"]:
+                            for tc in msg["tool_calls"]:
+                                tool_calls.append(tc)
+
                     except json.JSONDecodeError:
                         continue
+                print()
 
-        console.print("\n")
-    else:
-        # Plain text output (for piping/redirecting to files)
-        for line in response.iter_lines():
-            if line:
-                try:
-                    data = json.loads(line.decode("utf-8"))
-                    if "message" in data:
-                        content = data["message"].get("content", "")
-                        print(content, end="", flush=True)
-                    if data.get("done", False):
-                        break
-                except json.JSONDecodeError:
-                    continue
+            # Construct the assistant message for history
+            assistant_msg = {"role": "assistant", "content": full_content}
+            if tool_calls:
+                assistant_msg["tool_calls"] = tool_calls
+                messages.append(assistant_msg)
 
-        print("\n")
+                # Execute tools
+                for tool_call in tool_calls:
+                    fn = tool_call["function"]
+                    result_content = execute_tool_call(fn["name"], fn["arguments"])
+
+                    messages.append(
+                        {
+                            "role": "tool",
+                            "content": result_content,
+                        }
+                    )
+
+                # Continue loop to process tool results
+                continue
+
+            else:
+                # No tools used, session done
+                return
+
+        except requests.exceptions.ConnectionError:
+            print(f"Error: Cannot connect to Ollama at {OLLAMA_URL}")
+            print("Make sure Ollama is running: ollama serve")
+            sys.exit(1)
+        except Exception as e:
+            print(f"Error: {e}")
+            sys.exit(1)
 
 
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="Ollama Run - Streaming CLI with Markdown Output",
+        description="Ollama Run - CLI with Markdown Output",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   orun "how to create new branch"
-  orun "give me hello world in cpp" -md="glm-4.6:cloud"
-  orun -m "explain decorators" --model="mistral"
-  # Create a text file with the response
-  orun "give me hello world in cpp" > hello.txt
-  # Append to existing file
-  orun "explain the code" >> hello.txt
+  orun "calculate 1245*1457"  # Uses run_command tool
+  orun "what time is it"      # Uses get_current_date tool
+  orun -md="llama3" "hello"
         """,
     )
 
@@ -162,12 +321,11 @@ def main():
     if not prompt:
         print("Error: No prompt provided!")
         print('Usage: orun "your question here"')
-        print('       orun -m "your question" --model=model_name')
-        print('       orun "your question" -md=model_name')
         sys.exit(1)
 
     model = args.model
-    stream_ollama(prompt, model)
+    # Switch main logic to chat loop
+    run_chat(prompt, model)
 
 
 if __name__ == "__main__":
