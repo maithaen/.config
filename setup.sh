@@ -3,7 +3,7 @@
 # ============================================================================
 # Dotfiles Setup Script - Complete Development Environment Setup
 # ============================================================================
-# This script sets up a complete development environment on Linux/WSL
+# This script sets up a complete development environment on Linux/WSL/Termux
 # 
 # Usage:
 #   ./setup.sh              # Full setup
@@ -82,12 +82,18 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+is_termux() {
+    [ -n "$TERMUX_VERSION" ] || [ -d "/data/data/com.termux" ]
+}
+
 # ============================================================================
 # Package Manager Detection & Installation
 # ============================================================================
 
 detect_package_manager() {
-    if command_exists apt; then
+    if is_termux && command_exists pkg; then
+        echo "pkg"
+    elif command_exists apt; then
         echo "apt"
     elif command_exists dnf; then
         echo "dnf"
@@ -108,6 +114,23 @@ install_packages() {
     print_info "Detected package manager: $pkg_manager"
     
     case $pkg_manager in
+        pkg)
+            print_info "Updating package lists (Termux)..."
+            pkg update -y
+            print_info "Installing essential packages..."
+            pkg install -y git curl zsh fzf tmux neovim python
+            
+            # Install modern CLI tools
+            print_info "Installing modern CLI replacements..."
+            pkg install -y eza 2>/dev/null || print_warning "eza not available"
+            pkg install -y bat 2>/dev/null || print_warning "bat not available"
+            
+            # Optional packages
+            if [ "$MINIMAL_INSTALL" = false ]; then
+                print_info "Installing optional packages..."
+                pkg install -y ripgrep fd 2>/dev/null || print_warning "ripgrep/fd not available (optional)"
+            fi
+            ;;
         apt)
             print_info "Updating package lists..."
             sudo apt update
@@ -300,11 +323,21 @@ change_shell() {
     
     if [ "$SHELL" != "$zsh_path" ]; then
         print_info "Changing default shell to zsh..."
-        if chsh -s "$zsh_path" 2>/dev/null; then
-            print_status "Default shell changed to zsh"
-            print_warning "Please log out and log back in for shell change to take effect"
+        if is_termux; then
+            # Termux uses chsh without sudo
+            if chsh -s zsh 2>/dev/null; then
+                print_status "Default shell changed to zsh"
+                print_warning "Please restart Termux for shell change to take effect"
+            else
+                print_warning "Could not change shell automatically. Run manually: chsh -s zsh"
+            fi
         else
-            print_warning "Could not change shell automatically. Run manually: chsh -s $zsh_path"
+            if chsh -s "$zsh_path" 2>/dev/null; then
+                print_status "Default shell changed to zsh"
+                print_warning "Please log out and log back in for shell change to take effect"
+            else
+                print_warning "Could not change shell automatically. Run manually: chsh -s $zsh_path"
+            fi
         fi
     else
         print_status "Zsh is already the default shell"

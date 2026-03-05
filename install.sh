@@ -108,6 +108,7 @@ main() {
     # Check for git
     if ! command_exists git; then
         print_error "Git is not installed. Please install git first:"
+        echo "  Termux:        pkg install git"
         echo "  Ubuntu/Debian: sudo apt install git"
         echo "  Fedora: sudo dnf install git"
         echo "  Arch: sudo pacman -S git"
