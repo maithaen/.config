@@ -289,17 +289,22 @@ setup_pycli() {
         chmod +x "$DOTFILES_DIR/pycli/"*.py 2>/dev/null || true
         print_status "Made Python scripts executable"
         
-        # Install Python dependencies
+        # Install Python dependencies (Termux doesn't need --user flag)
+        local pip_user_flag="--user"
+        if is_termux; then
+            pip_user_flag=""
+        fi
+        
         if [ -f "$DOTFILES_DIR/pycli/requirements.txt" ]; then
             print_info "Installing Python dependencies..."
-            pip3 install -r "$DOTFILES_DIR/pycli/requirements.txt" --user --quiet 2>/dev/null || {
+            pip3 install -r "$DOTFILES_DIR/pycli/requirements.txt" $pip_user_flag --quiet 2>/dev/null || {
                 print_warning "Failed to install from requirements.txt, trying individual packages..."
-                pip3 install rich requests --user --quiet 2>/dev/null || print_warning "Some Python packages may not be installed"
+                pip3 install rich requests $pip_user_flag --quiet 2>/dev/null || print_warning "Some Python packages may not be installed"
             }
             print_status "Python dependencies installed"
         else
             print_info "Installing common Python dependencies..."
-            pip3 install rich requests --user --quiet 2>/dev/null || print_warning "Some Python packages may not be installed"
+            pip3 install rich requests $pip_user_flag --quiet 2>/dev/null || print_warning "Some Python packages may not be installed"
         fi
         
         # Run pycli setup script if it exists
